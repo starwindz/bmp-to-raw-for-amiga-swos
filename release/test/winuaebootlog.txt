@@ -1,0 +1,317 @@
+﻿WinUAE 1.6.1 (2009.06.18) (6.1 [2]) 32-bit 6.2505 4
+(c) 1995-2001 Bernd Schmidt   - Core UAE concept and implementation.
+(c) 1998-2009 Toni Wilen      - Win32 port, core code updates.
+(c) 1996-2001 Brian King      - Win32 port, Picasso96 RTG, and GUI.
+(c) 1996-1999 Mathias Ortmann - Win32 port and bsdsocket support.
+(c) 2000-2001 Bernd Meyer     - JIT engine.
+(c) 2000-2005 Bernd Roesch    - MIDI input, many fixes.
+Press F12 to show the Settings Dialog (GUI), Alt-F4 to quit.
+End+F1 changes floppy 0, End+F2 changes floppy 1, etc.
+EXE: 'D:\swos_tp\dev_edit\release\v1.0\test\', DATA: 'D:\swos_tp\dev_edit\release\v1.0\test\'
+'-f .\configurations\swos_hdf_file.uae -s gfx_width=672 -s gfx_height=544 -s gfx_filter=null -s gfx_filter_mode=1x -s win32.statusbar=normal -s cachesize=8192 -s sound_output=exact -s gfx_api=directdraw -s sound_filter_type=enhanced -s collision_level=playfields -s floppy_speed=800 -s use_gui=no -s finegrain_cpu_speed=512'
+params:
+1: '-f'
+2: '.\configurations\swos_hdf_file.uae'
+3: '-s'
+4: 'gfx_width=672'
+5: '-s'
+6: 'gfx_height=544'
+7: '-s'
+8: 'gfx_filter=null'
+9: '-s'
+10: 'gfx_filter_mode=1x'
+11: '-s'
+12: 'win32.statusbar=normal'
+13: '-s'
+14: 'cachesize=8192'
+15: '-s'
+16: 'sound_output=exact'
+17: '-s'
+18: 'gfx_api=directdraw'
+19: '-s'
+20: 'sound_filter_type=enhanced'
+21: '-s'
+22: 'collision_level=playfields'
+23: '-s'
+24: 'floppy_speed=800'
+25: '-s'
+26: 'use_gui=no'
+27: '-s'
+28: 'finegrain_cpu_speed=512'
+CLOCKFREQ: QPF 2.60MHz (2.60MHz, DIV=1)
+Max hardware surface size: 8192x8192
+DriverCaps: 95d27fc1 a06ab230 0002e311 22ad54e0 00000000 00000000
+DDCAPS_BLT,DDCAPS_BLTQUEUE,DDCAPS_BLTFOURCC,DDCAPS_BLTCOLORFILL,DDCAPS_BLTSTRETCH,DDCAPS_CANBLTSYSMEM,DDCAPS_COLORKEY,DDCAPS_COLORKEYHWASSIST,DDCAPS_GDI,DDCAPS_OVERLAY,DDCAPS_3D,DDCAPS_READSCANLINE,DDCAPS2_CANRENDERWINDOWED,DDCAPS2_FLIPNOVSYNC,DDCAPS2_FLIPINTERVAL,DDCAPS2_NONLOCALVIDMEM,DDCAPS2_WIDESURFACES,DDCKEYCAPS_DESTBLT,DDCKEYCAPS_SRCBLT
+HELCaps   : f4c08241 00000001 00000200 0003fce3 00000000 00000347
+DDCAPS_BLT,DDCAPS_BLTCOLORFILL,DDCAPS_BLTSTRETCH,DDCAPS_CANBLTSYSMEM,DDCAPS_CANCLIP,DDCAPS_CANCLIPSTRETCHED,DDCAPS_COLORKEY,DDCAPS_3D,DDCAPS_PALETTE,DDCAPS2_CERTIFIED,DDCKEYCAPS_SRCBLT
+Enumerating display devices.. 
+'주 디스플레이 드라이버' 'display' NULL
+'Intel(R) HD Graphics' '\\.\DISPLAY1' 67685559-3106-11D0-B97100AA00342F9F
+Sorting devices and modes..
+Desktop: W=1366 H=768 B=32. MaxW=1366 MaxH=768 CXVS=1366 CYVS=768
+0: 320x200, 8-bit (60)
+1: 320x200, 16-bit (60)
+2: 320x200, 32-bit (60)
+3: 320x240, 8-bit (60)
+4: 320x240, 16-bit (60)
+5: 320x240, 32-bit (60)
+6: 400x300, 8-bit (60)
+7: 400x300, 16-bit (60)
+8: 400x300, 32-bit (60)
+9: 512x384, 8-bit (60)
+10: 512x384, 16-bit (60)
+11: 512x384, 32-bit (60)
+12: 640x400, 8-bit (60)
+13: 640x400, 16-bit (60)
+14: 640x400, 32-bit (60)
+15: 640x480, 8-bit (60)
+16: 640x480, 16-bit (60)
+17: 640x480, 32-bit (60)
+18: 800x600, 8-bit (60)
+19: 800x600, 16-bit (60)
+20: 800x600, 32-bit (60)
+21: 1024x768, 8-bit (60)
+22: 1024x768, 16-bit (60)
+23: 1024x768, 32-bit (60)
+24: 1280x600, 8-bit (60)
+25: 1280x600, 16-bit (60)
+26: 1280x600, 32-bit (60)
+27: 1280x720, 8-bit (60)
+28: 1280x720, 16-bit (60)
+29: 1280x720, 32-bit (60)
+30: 1280x768, 8-bit (60)
+31: 1280x768, 16-bit (60)
+32: 1280x768, 32-bit (60)
+33: 1360x768, 8-bit (60)
+34: 1360x768, 16-bit (60)
+35: 1360x768, 32-bit (60)
+36: 1366x768, 8-bit (60)
+37: 1366x768, 16-bit (60)
+38: 1366x768, 32-bit (60)
+'주 디스플레이 드라이버 (1366*768)', 39 display modes (enabled)
+Desktop: W=1366 H=768 B=32. MaxW=1366 MaxH=768 CXVS=1366 CYVS=768
+0: 320x200, 8-bit (60)
+1: 320x200, 16-bit (60)
+2: 320x200, 32-bit (60)
+3: 320x240, 8-bit (60)
+4: 320x240, 16-bit (60)
+5: 320x240, 32-bit (60)
+6: 400x300, 8-bit (60)
+7: 400x300, 16-bit (60)
+8: 400x300, 32-bit (60)
+9: 512x384, 8-bit (60)
+10: 512x384, 16-bit (60)
+11: 512x384, 32-bit (60)
+12: 640x400, 8-bit (60)
+13: 640x400, 16-bit (60)
+14: 640x400, 32-bit (60)
+15: 640x480, 8-bit (60)
+16: 640x480, 16-bit (60)
+17: 640x480, 32-bit (60)
+18: 800x600, 8-bit (60)
+19: 800x600, 16-bit (60)
+20: 800x600, 32-bit (60)
+21: 1024x768, 8-bit (60)
+22: 1024x768, 16-bit (60)
+23: 1024x768, 32-bit (60)
+24: 1280x600, 8-bit (60)
+25: 1280x600, 16-bit (60)
+26: 1280x600, 32-bit (60)
+27: 1280x720, 8-bit (60)
+28: 1280x720, 16-bit (60)
+29: 1280x720, 32-bit (60)
+30: 1280x768, 8-bit (60)
+31: 1280x768, 16-bit (60)
+32: 1280x768, 32-bit (60)
+33: 1360x768, 8-bit (60)
+34: 1360x768, 16-bit (60)
+35: 1360x768, 32-bit (60)
+36: 1366x768, 8-bit (60)
+37: 1366x768, 16-bit (60)
+38: 1366x768, 32-bit (60)
+'Intel(R) HD Graphics (1366*768)', 39 display modes (enabled)
+Display buffer mode = 1
+Enumerating DirectSound devices..
+Enumeration end
+0:DS: 주 사운드 드라이버
+1:DS: 스피커(Realtek High Definition Audio)
+Enumerating recording devices:
+0:DS: 주 사운드 캡처 드라이버
+1:DS: 마이크(Realtek High Definition Audio)
+done
+CW: No Catweasel detected
+PARAPORT: no ParaPort.dll, direct parallel port emulation disabled
+IPC: Named Pipe '\\.\pipe\WinUAE' open
+IPC: Named Pipe '\\.\pipe\WinUAE_COM' open
+Serial port enumeration..
+Serial port enumeration end
+DirectInput enumeration.. Keyboards..
+I=6F1D2B61-D5A0-11CF-BFC7444553540000 P=6F1D2B61-D5A0-11CF-BFC7444553540000
+'키보드' '키보드' 00000413 [Keyboard]
+DirectInput enumeration.. Pointing devices..
+I=6F1D2B60-D5A0-11CF-BFC7444553540000 P=6F1D2B60-D5A0-11CF-BFC7444553540000
+'마우스' '마우스' 00000112 [Mouse]
+DirectInput enumeration.. Game controllers..
+RawInput enumeration..
+RAWINPUT: found 7 devices
+0001003D mouse: '\\?\HID#VID_04FC&PID_05DA&Col01#7&1894992c&0&0000#{378de44c-56ef-11d1-bc8c-00a0c91405dd}'
+id=256 buttons=5 hw=0 rate=0
+000B003B mouse: '\\?\ACPI#PNP0F13#4&3109d236&0#{378de44c-56ef-11d1-bc8c-00a0c91405dd}'
+id=32 buttons=5 hw=0 rate=40
+'Synaptics PS/2 Port Pointing Device' ('\\?\ACPI#PNP0F13#4&3109d236&0#{378de44c-56ef-11d1-bc8c-00a0c91405dd}')
+'HID 규격 마우스' ('\\?\HID#VID_04FC&PID_05DA&Col01#7&1894992c&0&0000#{378de44c-56ef-11d1-bc8c-00a0c91405dd}')
+Windowsmouse initialization..
+Catweasel joymouse initialization..
+wintab tablet initialization..
+Tablet: no wintab32.dll
+end
+마우스 * (PGUID=6F1D2B60-D5A0-11CF-BFC7444553540000):
+00 000 'X-축' (-99,0)
+04 004 'Y-축' (-98,0)
+08 008 '휠' (-97,0)
+마우스 * (PGUID=6F1D2B60-D5A0-11CF-BFC7444553540000):
+0C 012 '단추 0' (12,-1)
+0D 013 '단추 1' (13,-1)
+0E 014 '단추 2' (14,-1)
+0F 015 '단추 3' (15,-1)
+10 016 '단추 4' (16,-1)
+08 008 '휠 [-]' (1016,-1)
+08 008 '휠 [+]' (1017,-1)
+키보드 * (PGUID=6F1D2B61-D5A0-11CF-BFC7444553540000):
+01 001 'Esc' (0,-1)
+02 002 '1' (0,-1)
+03 003 '2' (0,-1)
+04 004 '3' (0,-1)
+05 005 '4' (0,-1)
+06 006 '5' (0,-1)
+07 007 '6' (0,-1)
+08 008 '7' (0,-1)
+09 009 '8' (0,-1)
+0A 010 '9' (0,-1)
+0B 011 '0' (0,-1)
+0C 012 '-' (0,-1)
+0D 013 '=' (0,-1)
+0E 014 'Backspace' (0,-1)
+0F 015 'Tab' (0,-1)
+10 016 'Q' (0,-1)
+11 017 'W' (0,-1)
+12 018 'E' (0,-1)
+13 019 'R' (0,-1)
+14 020 'T' (0,-1)
+15 021 'Y' (0,-1)
+16 022 'U' (0,-1)
+17 023 'I' (0,-1)
+18 024 'O' (0,-1)
+19 025 'P' (0,-1)
+1A 026 '[' (0,-1)
+1B 027 ']' (0,-1)
+1C 028 'Enter' (0,-1)
+1D 029 'Ctrl' (0,-1)
+1E 030 'A' (0,-1)
+1F 031 'S' (0,-1)
+20 032 'D' (0,-1)
+21 033 'F' (0,-1)
+22 034 'G' (0,-1)
+23 035 'H' (0,-1)
+24 036 'J' (0,-1)
+25 037 'K' (0,-1)
+26 038 'L' (0,-1)
+27 039 ';' (0,-1)
+28 040 ''' (0,-1)
+29 041 '`' (0,-1)
+2A 042 'Shift' (0,-1)
+2B 043 '\' (0,-1)
+2C 044 'Z' (0,-1)
+2D 045 'X' (0,-1)
+2E 046 'C' (0,-1)
+2F 047 'V' (0,-1)
+30 048 'B' (0,-1)
+31 049 'N' (0,-1)
+32 050 'M' (0,-1)
+33 051 ',' (0,-1)
+34 052 '.' (0,-1)
+35 053 '/' (0,-1)
+36 054 'Right Shift' (0,-1)
+37 055 '*' (0,-1)
+38 056 'Alt' (0,-1)
+39 057 'Space' (0,-1)
+3A 058 'Caps Lock' (0,-1)
+3B 059 'F1' (0,-1)
+3C 060 'F2' (0,-1)
+3D 061 'F3' (0,-1)
+3E 062 'F4' (0,-1)
+3F 063 'F5' (0,-1)
+40 064 'F6' (0,-1)
+41 065 'F7' (0,-1)
+42 066 'F8' (0,-1)
+43 067 'F9' (0,-1)
+44 068 'F10' (0,-1)
+45 069 'Num Lock' (0,-1)
+46 070 'Scroll Lock' (0,-1)
+47 071 'Num 7' (0,-1)
+48 072 'Num 8' (0,-1)
+49 073 'Num 9' (0,-1)
+4A 074 '-' (0,-1)
+4B 075 'Num 4' (0,-1)
+4C 076 'Num 5' (0,-1)
+4D 077 'Num 6' (0,-1)
+4E 078 '+' (0,-1)
+4F 079 'Num 1' (0,-1)
+50 080 'Num 2' (0,-1)
+51 081 'Num 3' (0,-1)
+52 082 'Num 0' (0,-1)
+53 083 'Num Del' (0,-1)
+56 086 '\' (0,-1)
+57 087 'F11' (0,-1)
+58 088 'F12' (0,-1)
+7E 126 'F15' (0,-1)
+90 144 '이전 트랙' (0,-1)
+99 153 '다음 트랙' (0,-1)
+9C 156 'Num Enter' (0,-1)
+9D 157 'Right Control' (0,-1)
+A0 160 '음소거' (0,-1)
+A1 161 '계산기' (0,-1)
+A2 162 '재생/일시 중지' (0,-1)
+A4 164 '미디어 중지' (0,-1)
+AE 174 '볼륨 -' (0,-1)
+B0 176 '볼륨 +' (0,-1)
+B2 178 '웹/홈' (0,-1)
+B5 181 'Num /' (0,-1)
+B7 183 'Prnt Scrn' (0,-1)
+B8 184 'Right Alt' (0,-1)
+C5 197 'Pause' (0,-1)
+C7 199 'Home' (0,-1)
+C8 200 'Up' (0,-1)
+C9 201 'Page Up' (0,-1)
+CB 203 'Left' (0,-1)
+CD 205 'Right' (0,-1)
+CF 207 'End' (0,-1)
+D0 208 'Down' (0,-1)
+D1 209 'Page Down' (0,-1)
+D2 210 'Insert' (0,-1)
+D3 211 'Delete' (0,-1)
+DB 219 'Left Windows' (0,-1)
+DC 220 'Right Windows' (0,-1)
+DD 221 'Application' (0,-1)
+DE 222 '전원' (0,-1)
+DF 223 '절전' (0,-1)
+E3 227 '절전 모드 해제' (0,-1)
+E5 229 '검색' (0,-1)
+E6 230 '즐겨찾기' (0,-1)
+E7 231 '새로 고침' (0,-1)
+E8 232 '웹 중지' (0,-1)
+E9 233 '앞으로' (0,-1)
+EA 234 '뒤로' (0,-1)
+EB 235 '내 컴퓨터' (0,-1)
+EC 236 '메일' (0,-1)
+ED 237 '미디어' (0,-1)
+Max Z3FastRAM 1536M. Total physical RAM 2868M
+GetWriteWatch() test ok
+load config 'D:\swos_tp\dev_swostp\winuae\Configurations\default.uae':0
+load failed
+failed to load config 'D:\swos_tp\dev_swostp\winuae\Configurations\default.uae'
+load config '.\configurations\swos_hdf_file.uae':3
+unknown config entry: 'win32.statusbar=normal'
+unknown config entry: 'gfx_api=directdraw'
+LCD: Logitech LCD system not detected
+Log (disabled): 'D:\swos_tp\dev_edit\release\v1.0\test\winuaelog.txt'

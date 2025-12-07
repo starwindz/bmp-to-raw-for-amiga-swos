@@ -1,0 +1,69 @@
+Changes in the Ipswich Town Service Pack 1
+
+   * Workaround for the gcc miscompile. This will ever so slightly reduce
+     performance even when using a "good" gcc, so let's all fix our
+     compilers, shall we, so that the workaround can be removed again!
+   * Fixed some silly bugs Brian King found while porting to WinUAE. I
+     especially like the one where gcc optimized away a NULL pointer
+     dereference ;-)
+   * Fixed some silly bugs I found when trying to find out why things
+     wouldn't work for Brian
+   * Add some code to support compilation without the REGPARAM stuff
+     (essentially pushing/popping of function call arguments). This
+     really is for debug builds only, DON'T USE IT FOR RELEASE STUFF!
+   * Many many fixes in the DGA2 display driver. It's great to actually
+     have a decent X server at last! Boy, had I screwed that one up....
+   * Implemented new and hopefully glibc-independent way of handling
+     the SIGSEGV handler. Anybody with glibc 2.2 out there who can
+     test?
+   * Added some code to attempt a graceful exit on soft-reset, rather
+     than a hang/crash.
+   * Handle a couple more instruction classes in the SEGV handler ---
+     the MVMLE/MVMEL code was not covered.
+
+New in Ipswich Town Release:
+
+  * Ability to use PCI S3Virge cards in the host's PCI bus with the
+    free CGX3 Virge drivers (see README.pci)
+  * Completely overhauled the internal handling of compiled blocks. As
+    a result, there is now
+    - No more instruction cache thrashing. The "instruction cache" is now
+      effectively fully associative, instead of direct mapped, as it used
+      to be.
+    - Soft cache flushing. This means that instead of throwing away all
+      pretranslated code each time the 68k processor requests a cache
+      flush, it just gets marked for having its checksum checked. If it
+      matches, the compiled code is kept, and no recompilation is necessary
+    - Improved inter-block dispatch code, giving significant speedups
+    - Many 68k program counter updates could be saved
+  * Integer registers can have "offset", optimizing pre-decrement and
+    post-increment addressing
+  * Aliasing for FPU registers
+  * Lazy evaluation of FPU flags (combined with FPU register aliasing,
+    this often reduces FPU flag generation overhead to 0)
+  * cmov-free branch handling, giving speedup on cmov-less processors
+  * More 68k instructions are JIT-emulated.
+  * Compiling through unconditional branches is now optional
+  * The optimizers are officially broken and abandoned ;-)
+  * Bug fixes galore!
+  * Much more that I can't remember right now.
+  * In the MacOS Speedometer Benchmark Mix Average, UAE-JIT running
+    Shapeshifter is now slightly faster than the Executor Demo, running
+    on the same machine. Yeehaw ;-)
+
+New in the Everton Release:
+
+  * JIT compilation for FPU. Probably full of bugs, but damn, it is 
+    fast ;-)
+  * SIGSEGV handler for direct memory access. Obsoleting the
+    comptrust* parameters, memory access should now always be direct
+  * Configuration checks at runtime
+  * Optimized block lookup code, giving up to 30% speedup
+  * Native registers can now hold more than one virtual register.
+    Avoids some pointless register moves, and thus gives a very slight
+    speedup
+  * Low level instruction optimizer. Currently broken :-(
+  * Compiler functions are now allowed to fail at runtime (see compemu_fpp)
+  * More precise timing code (decoupled the frame rate hack from vsync,
+    and some changes in cia.c)
+  * Bug fixes

@@ -1,0 +1,367 @@
+This describes how to get Virge and Virge/DX cards working under
+UAE-JIT if you are using Linux. 
+
+************************************************************************
+* EVERYTHING DESCRIBED IN HERE IS A HACK. IF YOU MANAGE TO DAMAGE YOUR *
+* HARDWARE, SOFTWARE OR DATA --- BAD LUCK! I AM NOT LIABLE IN ANY WAY! *
+* IF THE IDEA OF USING A COMMAND-LINE FRIGHTENS YOU, DO NOT READ ON!   *
+************************************************************************
+
+OK, scared yet? No need to be --- just follow the instructions, and if
+things don't work, experiment a bit before you send a cry for help my
+way, OK?
+
+
+A) The Easy Part --- a single Virge
+===================================
+
+To use a Virge PCI card under UAE-JIT, you need several things:
+ 
+   * A Virge card (well, duh!)
+   * Another gfx card that you will use for your X display (This is 
+     important! You must not use the Virge for this! If all else fails,
+     try a remote X server)
+   * The CGX3 Virge drivers from http://www.vgr.com/mediator/
+     Get the October 26th release.
+   * The pci.library that comes with UAE-JIT
+   * XFree86 4.0x
+   * A halfway recent linux kernel
+   * A pci enabled version of UAE-JIT (i.e. something "bleeding edge",
+     and newer than Everton. You probably already have it if you read
+     this!)
+
+Now put the Virge card into a PCI slot on your machine, make sure it
+is *not* the card the machine uses to boot (look for "initialize VGA first"
+in the BIOS, sometimes hidden in some rather unintuitive place, and set
+it to "AGP"). Boot into linux, and at a command line type
+
+    # pcitweak -l
+
+(the '#' is the shell prompt I use. Don't type it!)
+You should get output that looks something like this:
+
+    PCI: Probing config type using method 1
+    PCI: Config type is 1
+    PCI: PCI scan (all values are in hex)
+    PCI: 00:00:0: chip 8086,7190 card 0000,0000 rev 03 class 06,00,00 hdr 00
+    PCI: 00:01:0: chip 8086,7191 card 0000,0000 rev 03 class 06,04,00 hdr 01
+    PCI: 00:07:0: chip 8086,7110 card 0000,0000 rev 02 class 06,01,00 hdr 80
+    PCI: 00:07:1: chip 8086,7111 card 0000,0000 rev 01 class 01,01,80 hdr 00
+    PCI: 00:07:2: chip 8086,7112 card 0000,0000 rev 01 class 0c,03,00 hdr 00
+    PCI: 00:07:3: chip 8086,7113 card 0000,0000 rev 02 class 06,80,00 hdr 00
+    PCI: 00:09:0: chip 10ec,8029 card 0000,0000 rev 00 class 02,00,00 hdr 00
+    PCI: 00:0d:0: chip 5333,8a01 card 5333,8a01 rev 01 class 03,00,00 hdr 00
+    PCI: 00:0f:0: chip 5333,8a01 card 5333,8a01 rev 01 class 03,00,00 hdr 00
+    PCI: 01:01:0: chip 1023,9750 card 1023,9750 rev f3 class 03,00,00 hdr 00
+    PCI: End of PCI scan
+
+What you are looking for are lines that have "5333,8a01" or "5333,5631" in
+them (those are Virge/DX and Virge cards, respectively). Take down the
+field that looks like "00:0d:0" for those lines. That's the identifier for
+those cards. Yes, I have two in the machine I took the example from.
+You might also want to write down the identifier for your "main" graphics
+card. That should be the only other one that has "class 03", and often
+lives on its own bus (that's the first field in the identifier).
+
+Next, you need to tell UAE-JIT about the PCI cards it is supposed to see.
+The pci library emulation will not allow the emulated Amiga access to anything
+else, which should reduce the risk of crashing your machine a tad....
+To tell UAE about the devices, add a line like this to your UAE config
+file:
+
+   pci_devices=!0.f.0:!0.d.0:!*1.1.0
+
+OK, this obviously needs explanation... "pci_devices" is assigned a string.
+That string consists of a number of device descriptions, separated by ':'.
+So the above has three device descriptions: "!0.f.0", "!0.d.0" and "!*1.1.0".
+Except for the '!' and '*', those correspond to the identifiers you took down
+in the previous step --- for me, "0.f.0" is one of my Virge/DX cards,
+"0.d.0" is the other, and "1.1.0" is the Trident card that I run X on
+(I assume that you are flexible enough to replace colons with periods ;-).
+Each device can optionally be prefixed by '!' and '*' (in that order!).
+
+The '!' means that UAE should not be concerned about the device already
+being active. This is "active" in a PCI sense. Unfortunately, UAE needs
+to activate a device to use it, and doesn't currently deactivate it. So
+you pretty much need the '!' for now, because otherwise you will only
+ever be able to use the PCI emulation once....
+The '*' indicates your main display. UAE will never make this visible to
+the Amiga. In fact, at the moment it doesn't do *anything* with it.
+Eventually, however, it will need to know about that VGA device to do
+proper initialization of the Virge, so it's probably a good idea to
+put it in there already. 
+
+Unfortunately, there still is a problem with getting the Virge cards
+properly initialized by the CGX3 drivers --- it seems as if I/O to the
+cards never makes it through. That's not really a showstopper, as the
+Virge has memory-mapped I/O which can be used instead, and the pci emulation
+takes care of redirecting the I/O. BUT(!) you need to get the Virge cards
+initialized. 
+That's what you need XFree86 4.0x for. You will need to set up a config
+file in some place to run it on your Virge card. Make sure you point it
+at the right card, and tell it to use the Virge driver. I have a device
+section like this
+
+    Section "Device"
+        Identifier  "virge"
+        BusID      "PCI:0:13:0"
+        Driver      "s3virge"
+    EndSection
+
+(the "13" is the "0d" from the identifier --- a=10, b=11, c=12, d=13, e=14,
+f=15). If I wanted to use the Virge on 00:0f:0, I'd use 15 instead of 13.
+
+Setting up X can be tricky, but XF86 4.0 has a great config file, some good
+documentation (and some not so good :( ), and quite frankly, I can't help
+you. If you can't get this going, ask in the appropriate newsgroup or
+read some more documentation, ok?
+
+Once your config file is done, you can start a bare-bones X server on 
+the Virge card by typing
+
+    # XFree86 -xf86config your_virge_config_file :1 &
+
+This will start a _second_ X server, in addition to the one you are already
+running on your "real" gfx card (you are, right?). Note that there won't
+be anything to see, just the stippled background. That's all that's needed
+to set up the card.
+
+Once you have managed to do this, its easy the rest of the way. So don't
+give up just yet....
+
+Now switch back to your "real" X server (usually CTRL-ALT-F7 will do the trick)
+and start UAE. Copy "pci.library" to your libs: directory.
+
+Next, uncompress the Elbox archive, and choose "Install".  WARNING!
+WARNING! WARNING! This will trash your P96 setup. So make sure you
+have a backup to go back to if things don't work out, or if you just
+want P96 back. You have been warned!
+
+When the install is complete, quit UAE and restart it. If all went well,
+you will now see the Cybergraphics logo appear on the monitor connected
+to the Virge, and then have Workbench appear on it. Hooray! You are now
+running Cybergfx, and the card is fully under the control of the Elbox
+driver. You can do everything with it that you could do with a "real"
+Mediator and Virge --- define your own modes with cgxmode, run software
+on it, drag screens.....
+Note, however, that UAE itself doesn't know anything about that gfx card.
+It still talks to you through the window on the "real" X server, and if
+you move the mouse out of that window, UAE loses it. So you might want
+to go fullscreen (F12-s if you have DGA modes enabled). 
+
+Worse yet, UAE doesn't know that you probably aren't interested in the
+ECS output, and thus keeps on emulating the native Amiga video system.
+Sometimes, that might be what you want, but usually it isn't. So you
+might want to disable that part of the emulation, by pressing F12-i.
+Just remember to press F12-i again when you actually want to see the
+ECS output, for example because you started a game ;-). UAE-JIT will
+put "NAT" at the end of the lines it prints every second if the native
+ECS graphics are still being emulated, so if you can see that output,
+you'll get a reminder.
+
+Got it working? Great! Enjoy it, and maybe have a look at the next section.
+
+Didn't get it working? Try again. And again. And if it still doesn't work,
+and you think you should mail me (bmeyer@csse.monash.edu.au) for help, be
+sure to include as much detail as possible about your system, what happens,
+what doesn't happen, and so on.
+
+
+B) For Bravehearts Only --- using more than one Virge
+=====================================================
+
+The free Elbox drivers don't actually support more than one card. This
+is due to some hardware limitations of the Mediator, which it is aimed
+at. So to get more than one to work under UAE requires some trickery.
+What essentially happens is that each card gets "its own" PCI interface,
+and is the only one using it (and thus works). 
+
+Unfortunately, the drivers weren't meant to do that, either, and have
+some names and values hardcoded in. You'll need to put the included
+"patchVirge" program in the same directory as the "MediatorViRGE" driver
+file. Then run it (from a linux command line --- it's a linux/x86 program!)
+by typing
+
+   # ./patchVirge 1
+
+which should output
+
+    replacing pattern 1, pos 577
+    replacing pattern 2, pos 617
+    replacing pattern 2, pos 745
+    replacing pattern 3, pos 1806
+    replacing pattern 2, pos 1818
+    replacing pattern 2, pos 1832
+    replacing pattern 2, pos 1862
+    replacing pattern 2, pos 1910
+    replacing pattern 2, pos 2002
+    replacing pattern 4, pos 2486
+    replacing pattern 1, pos 35118
+    replacing pattern 1, pos 35184
+    replacing pattern 1, pos 35210
+    replacing pattern 1, pos 35228
+    replacing pattern 2, pos 52118
+    replacing pattern 1, pos 53076
+    replacing pattern 1, pos 53100
+    replacing pattern 1, pos 53116
+    Replaced 18 patterns
+
+and produce a file "MediatorViRGE.1". Repeat with
+
+   # ./patchVirge 2
+
+and
+
+   # ./patchVirge 3
+
+For the sake of symmetry, you can also run
+
+   # ./patchVirge 0
+
+and get a "MediatorViRGE.0", but apart from slightly different mode names, 
+that one is identical to the original MediatorViRGE.
+
+Each of these files is a completely functional driver. Each of them will
+produce screen modes with slightly different modenames, and (more importantly)
+with different mode ids (and don't ask how long it took to find what bytes
+to patch for *that* ;-). Back in UAE, copy as many of them as you have
+Virge cards into the Devs/Monitors of your boot disk. WARNING! The files
+might not be marked executable. After copying, make sure you select each,
+use the "icons->information.." menu item, activate "executable" and 
+"save" the changed info.
+If you use MediatorViRGE.0 (I do, so it might be a good idea), you might
+want to remove the original MediatorViRGE driver from Devs/Monitors, because
+otherwise you might get mode-id conflicts (which are a real pain to track
+down, as CGX is very quiet about them).
+One more thing --- each of those drivers uses its own, individual copy of
+the "pci.library". MediatorViRGE.0 uses "pc0.library", MediatorViRGE.1 uses
+"pc1.library" and so on. So you need to copy the right libraries to libs:,
+or things won't work. Except for the name, the libraries are exactly
+identical, but you need to have separate ones. You cannot just copy one
+library over and over again, or even use links --- the names of the libraries
+are contained inside as well.
+Oh, and one more "one more thing". You need to copy a few files in 
+"prefs/env-archive/cybergraphx" on your boot drive. There should be a file
+"MediatorViRGEMonitor" there --- copy it to "Mediato1ViRGEMonitor",
+"Mediato2VirgeMonitor" and so on, and of course "Mediato0ViRGEMonitor" as
+well if you use that. Don't worry about the original file; You can keep it
+without causing problems.
+
+Now exit and restart UAE, and the cards should be assigned to the drivers
+in the order you mention them in the config file. You can't currently
+use more than 4 cards, and you should not have more than 4 drivers
+installed at any one time --- but apart from that, it doesn't matter if
+you have more drivers installed than you have cards, because each card
+will only be found once. For example, I have 4 drivers installed, and
+currently only have 2 Virge cards.
+[Note --- I consider it unlikely, but it is possible that you actually need
+to install the full CGX3 package, rather than just the Elbox version. I did
+so while bug hunting, so I cannot promise that it works without. I can't see
+why it wouldn't, though.]
+
+C) Known Bugs
+=============
+You certainly don't want to do a soft reset --- the PCI emulation isn't
+up to that yet, and will not release the cards. Things will crash one
+way or another. Just don't do it!
+
+You *CANNOT* use anything but the Virge driver. No other drivers are
+publicly available, anyway, but just in case you somehow get your hands
+on one --- IT WON'T WORK. If you can legally send it my way, I might be
+able to make it work, but right now, there is quite a bit of Virge
+specific stuff in there.
+
+For some reason, the bottom line of the screen is displayed above the top
+line. I think this is a driver problem, and has nothing to do with the
+pci emulation.
+
+Some 2-monitor configurations in Shapeshifter may give corrupt screen
+display on one monitor. Once again, I suspect the problem is on the
+Amiga side.
+
+D) How did this come about?
+===========================
+
+A lot of trial and error, and a lot of "where the $@%#$^@ did that value
+come from", which UAE is just great for. And of course the good old
+"Let's return some bogus value, and see where it shows up", which UAE
+is also great for.
+
+I have never seen anything but a picture of a Mediator, and I have
+never seen any Mediator related code other than the Virge driver. This
+means that anything the Virge driver doesn't use, the emulation
+doesn't support. There are many pci.library functions for which I have
+absolutely no idea what they are supposed to do --- the Virge drivers
+only use two.
+
+Personally, I think that a proper pci.library emulation, developed from
+a full and detailed spec, would be a GREAT tool for driver development.
+Developing in an emulation allows for great logging and debugging support
+that working on the real iron just can't provide (Logging every byte ever
+written to your device is just so much more useful than simply seeing
+your Amiga crash and burn). But it appears that Elbox likes to play
+their hand close to their chest, and thus are unwilling to open up
+their specs. I think that's a mistake, but I am not in a position to
+make any decisions....
+
+
+E) If you have a look at the source...
+======================================
+
+...you will notice a couple of #define's at in the file pcilib.c, switching
+on or off features.
+
+The first one is "USE_REAL_IO". It is related to the already mentioned
+problems with initializing the Virge cards --- if you set it to 1, 
+the pci emulation will use the PCI I/O space rather than the memory
+mapped I/O of the Virge cards. In that case, you *must* provide an
+entry in pci_devices for your main VGA card (it needs to be deactivated
+temporarily when I/O to the Virge occurs). This has never worked for me.
+It might work in a machine that has just one PCI bus, and no AGP bus,
+or if your main VGA card is on the same PCI bus as the Virge. If you get
+this to work, tell me! 
+If the PCI emulation ever is to support other drivers, such as the network
+one that seems to float around, this will need to be set to 1. But before
+that happens, I need to find out why XF86 can wake up the Virge in my
+machine, but the emulated Amiga's Virge driver can't.
+
+The second one is called "EVIL_HACK". It's evil. It's a hack. It also
+saves loads and loads of CPU time ;-). 
+The Mediator is limited to an 8M address window, which means that it
+cannot at the same time have access to the VGA frame buffer of the
+Virge *and* the memory-mapped I/O area (which is at
+frame_buffer_address+16MB). So each time it wants to access I/O, it
+switches the window 16MB forward, does its access, and switches 
+the window back. And the driver isn't very clever about it; If it 
+wants to do two accesses to I/O, it still switches the window 
+back in between.
+Now, on a Mediator, switching the window is cheap --- store the value in
+some hardware register, and whatever is in that register gets added to
+the address of each access to the PCI space. Under UAE, it's not cheap.
+It requires un-mmapping 8M of memory, and mmapping another 8M. Each time.
+Quite often only to reverse the mappings immediately afterwards. Not good!
+Fortunately, UAE is not limited to a 24 bit address space. So if you enable
+"EVIL_HACK", the pci emulation will search for a 32M address window instead,
+and map the whole 32M space of the Virge at the same time. 
+So far, so good. However, the Virge driver doesn't expect this, and
+rather assumes a window switch to provide new stuff in the first 8M of
+Mediator space. And unfortunately, the "switch window" routine doesn't
+return the base address of the Mediator space to use (Bad Thinking there,
+Elbox! You are locking yourself into your current scheme!), so changing
+that assumption is not possible in a non-evil way. However, it *is* possible
+to change in a completely evil way --- after each time the window switch
+function is called, the driver loads the Mediator window base address from
+its own, driver-local storage space. It always loads it from the same spot.
+So the evil thing to do is to "mess with its mind", i.e. to have the
+window switch emulation leave the mappings alone, and instead change 
+that base address variable. 
+Now, mind you --- it's not the pci.library's to change, and where it
+can be found could quite well be completely different for the next
+driver version.  Messing with the internals of another program is
+certainly not "the done thing". But if it saves CPU cycles, who am I
+to reject it?
+
+
+
+
+

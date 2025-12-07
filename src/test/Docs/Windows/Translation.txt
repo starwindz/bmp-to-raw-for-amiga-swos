@@ -1,0 +1,8 @@
+Use any resource editor to translate string table and dialogs.
+Rename WinUAE_default.dll to WinUAE_<language>.dll
+(for example WinUAE_Finnish.dll, WinUAE_German.dll)
+
+Copy translated and rename dll to WinUAE's directory.
+WinUAE use it automatically.
+
+Note: version numbers must match or dll is ignored by WinUAE.

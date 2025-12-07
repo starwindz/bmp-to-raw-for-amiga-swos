@@ -1,0 +1,1 @@
+dosbox -conf pack.conf -noconsole
