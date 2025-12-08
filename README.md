@@ -19,3 +19,5 @@ Features:
 - Team1~3 and Goal Keeper
 - Many others: charset, disk22, loader00, loader01, menubg, menubg2, menus, olddisk1, soccer_s
 - All-in-1 creating and testing graphics
+
+<img width="1257" height="861" alt="image" src="https://github.com/user-attachments/assets/eee70367-7fac-4a75-ba88-4542ded70ac8" />
